@@ -266,10 +266,10 @@ foreach($pkg in $sdl2_packages)
 	}
 	CreateDirectory("$dir\sources\$pkg\include")
 	Move-Item -Path "$zip\include\*.h" -Destination "$dir\sources\$pkg\include\" -Force | Out-Null
+	CreateDirectory("$dir\sources\$pkg\docs")
+	Move-Item -Path (Get-ChildItem "$zip\" -File -Include "*.txt" -Recurse) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
 	if ($add_docs -ne $false)
 	{
-		CreateDirectory("$dir\sources\$pkg\docs")
-		Move-Item -Path (Get-ChildItem "$zip\" -File -Include "*.txt" -Recurse) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
 		if (Test-Path "$zip\docs\")
 		{
 			Copy-Item -Path "$zip\docs\*" -Destination "$dir\sources\$pkg\docs\" | Out-Null
