@@ -6,7 +6,7 @@ PowerShell script to generate NuGet packages for SDL2.
 # Prerequisite
 
 To generate packages you need:
-- The CoApp tools: [Official website](http://coapp.org)  |  [Download page](http://coapp.org/pages/releases.html)
+- The CoApp tools: [Official website](http://coapp.org) | [Download page](http://coapp.org/pages/releases.html)
 - Internet connection
 
 # How to
@@ -30,4 +30,4 @@ You can customize packages by changing this params:
 - `$sdl2_version` to choose packages versions
 - `$sdl2_platforms` - for advanced users
 
-## You should know what your are changing!!!
+## You should know what you are changing!!!
