@@ -119,7 +119,7 @@ function PackageDependencies([string]$Package)
 	foreach($dp in $sdl2_dependencies[$Package])
 	{
 		$datas += "
-			$pkg_prefix$dp$pkg_postfix/" + $sdl2_version[$Package] + "$pkg_hotfix,"
+			$pkg_prefix$dp$pkg_postfix/" + $sdl2_version[$dp] + "$pkg_hotfix,"
 	}
 	$datas = $datas.TrimEnd(",")
 	$datas += "
