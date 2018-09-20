@@ -1,21 +1,22 @@
 # SDL2-nuget_builder
+
 PowerShell script to generate NuGet packages for SDL2.
 
 ### You can download pre-generated packages [here](https://github.com/xapdkop/sdl2-nuget) (look in [releases](https://github.com/xapdkop/sdl2-nuget/releases))
 
-# Prerequisite
+## Prerequisite
 
 To generate packages you need:
 - The CoApp tools: [Official website](http://coapp.org) | [Download page](http://coapp.org/pages/releases.html)
 - Internet connection
 
-# How to
+## How to
 
 You just have to run the sdl2-nuget.ps1 script in a PowerShell instance.
 It will download each needed files and output nupkg files in the "repository" folder.
 Also you can customize script if you want.
 
-# Customization
+## Customization
 
 You can customize packages by changing this params:
 - `$pkg_prefix` to change packages prefix, **""** by default [empty quotes, means no prefix]
@@ -30,4 +31,4 @@ You can customize packages by changing this params:
 - `$sdl2_version` to choose packages versions
 - `$sdl2_platforms` - for advanced users
 
-## You should know what you are changing!!!
+### You should know what you are changing!!!
