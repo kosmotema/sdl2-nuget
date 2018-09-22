@@ -284,6 +284,10 @@ foreach($pkg in $sdl2_packages)
 	Remove-Item -Path "$zip" -Recurse | Out-Null
 }
 
+# Workaround for outdated zlib1.dll in SDL_ttf
+Copy-Item -Path "$dir\sources\sdl2_image\bin\x64\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x64\zlib1.dll"
+Copy-Item -Path "$dir\sources\sdl2_image\bin\x86\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x86\zlib1.dll"
+
 Write-Host
 Set-Location "$dir\build"
 foreach ($module in $sdl2_packages)
