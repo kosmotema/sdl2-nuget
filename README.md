@@ -16,11 +16,11 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 #### The packages source code is availbale in the [nuget/source](https://github.com/xapdkop/sdl2-nuget/tree/nuget/source) branch.
 
-## Current SDL2-nuget versions:
+## Versions of SDL2 by default:
 
 - SDL2 - **2.0.9**
 - SDL2_image - **2.0.4**
-- SDL2_ttf - **2.0.14**
+- SDL2_ttf - **2.0.15**
 - SDL2_mixer - **2.0.4**
 - SDL2_net - **2.0.1**
 

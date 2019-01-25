@@ -10,7 +10,7 @@ $pkg_postfix = ".nuget" # Postfix of packages
 $keep_sources = $true # Use $true to keep source files or $false to delete them, $true by default
 $keep_autopkg = $true # Keep autopkg files, $false by default
 $add_docs = $false # Add docs in system module, $false by default
-$pkgs_hotfix = @{ "sdl2" = ""; "sdl2_image" = ""; "sdl2_ttf" = "2"; "sdl2_mixer" = ""; "sdl2_net" = "2" } # Packages hotfix version, "" by default for each module [means no hotfix]
+$pkgs_hotfix = @{ "sdl2" = ""; "sdl2_image" = ""; "sdl2_ttf" = ""; "sdl2_mixer" = ""; "sdl2_net" = "2" } # Packages hotfix version, "" by default for each module [means no hotfix]
 
 # SDL2 packages variables
 $sdl2_owners =	"xapdkop" # Packages "owner" name. Replace username with your name
@@ -18,7 +18,7 @@ $sdl2_tags = "SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform Ope
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.9"; "sdl2_image" = "2.0.4"; "sdl2_ttf" = "2.0.14"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.9"; "sdl2_image" = "2.0.4"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
@@ -262,9 +262,11 @@ foreach ($pkg in $sdl2_packages) {
     Remove-Item -Path "$zip" -Recurse | Out-Null
 }
 
-# Workaround for outdated zlib1.dll in SDL_ttf
+# Workaround for outdated zlib1.dll in SDL_ttf <2.0.15
+if ($sdl2_version["sdl2_ttf"] -lt "2.0.15") {
 Copy-Item -Path "$dir\sources\sdl2_image\bin\x64\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x64\zlib1.dll"
 Copy-Item -Path "$dir\sources\sdl2_image\bin\x86\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x86\zlib1.dll"
+}
 
 Write-Host
 Set-Location "$dir\build"
