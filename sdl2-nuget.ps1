@@ -1,4 +1,4 @@
-﻿#
+#
 # sdl2-nuget.ps1
 #
 
@@ -14,11 +14,11 @@ $pkgs_hotfix = @{ "sdl2" = ""; "sdl2_image" = ""; "sdl2_ttf" = ""; "sdl2_mixer" 
 
 # SDL2 packages variables
 $sdl2_owners =	"xapdkop" # Packages "owner" name. Replace username with your name
-$sdl2_tags = "SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
+$sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.9"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.10"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
@@ -171,8 +171,6 @@ function CreateDirectory([string]$Path) {
     }
 }
 
-#########################
-########## Main #########
 #########################
 
 # Checking on installed CoApp Tools
