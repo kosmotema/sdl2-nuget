@@ -18,7 +18,7 @@ $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.10"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.12"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
@@ -211,27 +211,27 @@ foreach ($pkg in $sdl2_packages) {
         $downloaded = $false
         while ($downloaded -eq $false) {
             try {
-                Write-Host "`nDownloading $filename..."
+                Write-Host "`nDownloading $filename... " -NoNewLine
                 $webclient.DownloadFile($fileuri, $outfile)
                 $downloaded = $true
-                Write-Host -ForegroundColor Green "$filename downloaded"
+                Write-Host -ForegroundColor Green "OK"
             }
             catch {
-                Write-Warning "An error occurred while downloading the file $fileuri"
+                Write-Warning "ERROR"
                 Write-Host -ForegroundColor Yellow "Press ENTER to try again or Ctrl-C to exit..."
                 Read-Host
             }
         }
     }
-    Write-Host "`nExtracting $filename..."
+    Write-Host "`nExtracting $filename... " -NoNewLine
     Remove-Item -Path "$dir\temp\*" -Recurse | Out-Null # Clearing directory to avoid Unzip exceptions
     try {
         Unzip "$outfile" "$dir\temp\"
-        Write-Host -ForegroundColor Green "$filename extracted"
+        Write-Host -ForegroundColor Green "OK"
     }
     catch {
-        Write-Warning -Message "An error occurred while extracting the file $filename"
-        Write-Warning -Message "Restart the script!!!"
+        Write-Warning -Message "ERROR"
+        Write-Warning -Message "Cannot unzip package"
         Remove-Item -Path "$outfile" -Force | Out-Null
         Pause
         Exit
@@ -269,8 +269,15 @@ if ($sdl2_version["sdl2_ttf"] -lt "2.0.15") {
 Write-Host
 Set-Location "$dir\build"
 foreach ($module in $sdl2_packages) {
-    Write-Host "Generating $pkg_prefix$module$pkg_postfix.autopkg..."
-    GeneratePackage($module)
+    Write-Host "Generating $pkg_prefix$module$pkg_postfix.autopkg..." -NoNewline
+    try {
+        GeneratePackage($module)
+        Write-Host -ForegroundColor Green "OK"
+    }
+    catch {
+        Write-Warning -Message "ERROR"
+        Write-Warning "Cannot create .autopkg file"
+    }
 }
 Set-Location -Path ".."
 
