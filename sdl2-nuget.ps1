@@ -165,9 +165,12 @@ function Unzip([string]$ZipFile, [string]$OutPath) {
     [System.IO.Compression.ZipFile]::ExtractToDirectory($ZipFile, $OutPath)
 }
 
-function CreateDirectory([string]$Path) {
+function New-Directory([Parameter (Mandatory)][string]$Path, [switch]$ClearIfExists = $false) {
     if (-not (Test-Path $Path)) {
-        New-Item "$Path" -ItemType Directory -Force | Out-Null
+        New-Item $Path -ItemType Directory -Force | Out-Null
+    }
+    elseif ($ClearIfExists) {
+        Get-ChildItem -Path $Path -Recurse | Remove-Item | Out-Null
     }
 }
 
@@ -190,10 +193,10 @@ foreach ($htfxKey in @($pkgs_hotfix.Keys)) {
     }
 }
 
-CreateDirectory("$dir\temp")
-CreateDirectory("$dir\sources")
-CreateDirectory("$dir\distfiles")
-CreateDirectory("$dir\build")
+New-Directory "$dir\temp" -ClearIfExists
+New-Directory "$dir\sources"
+New-Directory "$dir\distfiles"
+New-Directory "$dir\build" -ClearIfExists
 
 foreach ($pkg in $sdl2_packages) {
     $filename = "$pkg-devel-" + $sdl2_version[$pkg] + "-VC.zip"
@@ -224,7 +227,6 @@ foreach ($pkg in $sdl2_packages) {
         }
     }
     Write-Host "`nExtracting $filename... " -NoNewLine
-    Remove-Item -Path "$dir\temp\*" -Recurse | Out-Null # Clearing directory to avoid Unzip exceptions
     try {
         Unzip "$outfile" "$dir\temp\"
         Write-Host -ForegroundColor Green "OK"
@@ -238,14 +240,14 @@ foreach ($pkg in $sdl2_packages) {
     }
     $zip = "$dir\temp\" + $pkg.Replace("sdl", "SDL") + "-" + $sdl2_version[$pkg]
 
-    CreateDirectory("$dir\sources\$pkg")
+    New-Directory "$dir\sources\$pkg"
     foreach ($plf in $sdl2_platforms) {
-        CreateDirectory("$dir\sources\$pkg\lib\$plf")
-        CreateDirectory("$dir\sources\$pkg\bin\$plf")
+        New-Directory "$dir\sources\$pkg\lib\$plf"
+        New-Directory "$dir\sources\$pkg\bin\$plf"
     }
-    CreateDirectory("$dir\sources\$pkg\include")
+    New-Directory "$dir\sources\$pkg\include"
     Move-Item -Path "$zip\include\*.h" -Destination "$dir\sources\$pkg\include\" -Force | Out-Null
-    CreateDirectory("$dir\sources\$pkg\docs")
+    New-Directory "$dir\sources\$pkg\docs"
     Move-Item -Path (Get-ChildItem "$zip\" -File -Include "*.txt" -Recurse) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
     if ($add_docs -ne $false) {
         if (Test-Path "$zip\docs\") {
@@ -269,7 +271,7 @@ if ($sdl2_version["sdl2_ttf"] -lt "2.0.15") {
 Write-Host
 Set-Location "$dir\build"
 foreach ($module in $sdl2_packages) {
-    Write-Host "Generating $pkg_prefix$module$pkg_postfix.autopkg..." -NoNewline
+    Write-Host "Generating $pkg_prefix$module$pkg_postfix.autopkg... " -NoNewline
     try {
         GeneratePackage($module)
         Write-Host -ForegroundColor Green "OK"
@@ -281,12 +283,12 @@ foreach ($module in $sdl2_packages) {
 }
 Set-Location -Path ".."
 
-New-Item "$dir\repository" -ItemType Directory -Force | Out-Null
+New-Directory "$dir\repository" -ClearIfExists
 Set-Location "$dir\repository"
 Get-ChildItem -Path "../build/" -Filter "$pkg_prefix*$pkg_postfix.autopkg" | Foreach-Object {
     Write-Host "`nGenerating NuGet package from $_...`n"
     Write-NuGetPackage ..\build\$_ | Out-Null
-    if ($keep_autopkg -eq $false) {
+    if (-not ($keep_autopkg)) {
         Remove-Item -Path "..\build\$_" | Out-Null
     }
 }
@@ -294,10 +296,10 @@ Write-Host "`nCleaning..."
 Remove-Item -Path "*.symbols.*" | Out-Null
 Set-Location -Path ".."
 Remove-Item -Path "$dir\temp" -Recurse | Out-Null
-if ($keep_autopkg -eq $false) {
+if (-not ($keep_autopkg)) {
     Remove-Item -Path "$dir\build" -Recurse | Out-Null
 }
-if ($keep_sources -ne $true) {
+if (-not ($keep_sources)) {
     Remove-Item -Path "$dir\sources" -Recurse | Out-Null
 }
 Write-Host -ForegroundColor Green "Done! Your packages are available in $dir\repository"

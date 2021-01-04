@@ -1,12 +1,14 @@
-# SDL2-nuget
+# sdl2.nuget
 
 PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 ## **Disclaimer! All packages are provided "AS IS"**
 
-#### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@xapdkop.space](mailto:sdl2-nuget@xapdkop.space)
+### Note: This script is incompatible with PowerShell Core (v7)
 
-### You can download pre-generated packages from [here](https://github.com/xapdkop/sdl2-nuget/releases/) or from [nuget.org](https://nuget.org) (rather):
+#### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@xapdkop.dev](mailto:sdl2-nuget@xapdkop.dev)
+
+### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/xapdkop/sdl2-nuget/releases/)):
 
 - [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/)
 - [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/)
@@ -14,11 +16,9 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 - [sdl2_mixer.nuget](https://www.nuget.org/packages/sdl2_mixer.nuget/)
 - [sdl2_net.nuget](https://www.nuget.org/packages/sdl2_net.nuget/)
 
-#### The packages source code is availbale in the [nuget/source](https://github.com/xapdkop/sdl2-nuget/tree/nuget/source) branch.
-
 ## Versions of SDL2 by default:
 
-- SDL2 - **2.0.12**
+- SDL2 - **2.0.14**
 - SDL2_image - **2.0.5**
 - SDL2_ttf - **2.0.15**
 - SDL2_mixer - **2.0.4**
@@ -26,9 +26,7 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 ## Prerequisites for generating your own packages
 
-To generate packages you need:
-- The CoApp tools: [Official website](http://coapp.org) | [Download page](http://coapp.org/pages/releases.html)
-- Internet connection
+To generate packages you need the CoApp tools: [Official website](http://coapp.org) | [Download page](http://coapp.org/pages/releases.html)
 
 ## How to generate
 
