@@ -18,7 +18,7 @@ $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.14"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.16"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
@@ -38,7 +38,7 @@ SDL officially supports Windows, Mac OS X, Linux, iOS, and Android. Support for 
 
 SDL is written in C, works natively with C++, and there are bindings available for several other languages, including C# and Python.
 
-Source code of this package and build script are available on https://github.com/xapdkop/sdl2-nuget"
+Is this package outdated? Report here: https://github.com/xapdkop/sdl2-nuget"
 $sdl2_changelog = "Look at the official SDL website https://libsdl.org"
 
 # Don't change these values
