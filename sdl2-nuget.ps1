@@ -18,7 +18,7 @@ $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.16"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.18"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.15"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
