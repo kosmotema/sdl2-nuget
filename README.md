@@ -18,9 +18,9 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 ## Versions of SDL2 by default:
 
-- SDL2 - **2.0.18**
+- SDL2 - **2.0.20**
 - SDL2_image - **2.0.5**
-- SDL2_ttf - **2.0.15**
+- SDL2_ttf - **2.0.18**
 - SDL2_mixer - **2.0.4**
 - SDL2_net - **2.0.1**
 
@@ -52,5 +52,4 @@ You can customize packages by changing this params **(you should know what you a
 ## SDL2 links:
 
 - [Official website](https://www.libsdl.org)
-- [SDL Mercurial repository](http://hg.libsdl.org/SDL)
-- [SDL Bugzilla issue tracker](https://bugzilla.libsdl.org)
+- [SDL Git](https://github.com/orgs/libsdl-org)
