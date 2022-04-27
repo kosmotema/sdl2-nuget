@@ -7,7 +7,7 @@
 # Some customisation variables
 $pkg_prefix = "" # Prefix of packages
 $pkg_postfix = ".nuget" # Postfix of packages
-$keep_sources = $true # Use $true to keep source files or $false to delete them, $true by default
+$keep_sources = $false # Use $true to keep source files or $false to delete them, $true by default
 $keep_autopkg = $true # Keep autopkg files, $false by default
 $add_docs = $false # Add docs in system module, $false by default
 $pkgs_hotfix = @{ "sdl2" = ""; "sdl2_image" = ""; "sdl2_ttf" = ""; "sdl2_mixer" = ""; "sdl2_net" = "2" } # Packages hotfix version, "" by default for each module [means no hotfix]
@@ -90,7 +90,7 @@ nuget {
 function PackageLibs([string]$Package) {
     $datas = ""
     foreach ($plf in $sdl2_platforms) {
-        $datas += "		[$plf,dynamic] {"
+        $datas += "		[$plf] {"
         $libfile = "			lib: { `${SRC}$Package\lib\$plf\*.lib };"
         $binfile = "			bin: { `${SRC}$Package\bin\$plf\*.dll };"
         $datas += "
@@ -136,19 +136,16 @@ function GeneratePackage([string]$Package) {
 		}
 
 "
-    $autopkg += "		nestedInclude: {
-			#destination = `${d_include};
-			""`${SRC}$Package\include\**\*""
+    $autopkg += "		include: {
+			`${SRC}$Package\include\*.h
 		};
 
 "
-    if ($add_docs -ne $false) {
-        $autopkg += "		docs: {
+    $autopkg += "		docs: {
 			`${SRC}$Package\docs\**\*
 		};
 
 "
-    }
     $autopkg += PackageLibs($Package)
     $autopkg += "
 	};
@@ -250,13 +247,12 @@ foreach ($pkg in $sdl2_packages) {
     New-Directory "$dir\sources\$pkg\include"
     Move-Item -Path "$zip\include\*.h" -Destination "$dir\sources\$pkg\include\" -Force | Out-Null
     New-Directory "$dir\sources\$pkg\docs"
-    Move-Item -Path (Get-ChildItem "$zip\" -File -Include "*.txt" -Recurse) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
+    Move-Item -Path (Get-ChildItem "$zip\*.txt" -File) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
     if ($add_docs -ne $false) {
         if (Test-Path "$zip\docs\") {
-            Copy-Item -Path "$zip\docs\*" -Destination "$dir\sources\$pkg\docs\" | Out-Null
+            Copy-Item -Path "$zip\docs\*" -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
         }
     }
-
     foreach ($plf in $sdl2_platforms) {
         Move-Item -Path "$zip\lib\$plf\*.dll" -Destination "$dir\sources\$pkg\bin\$plf\" -Force | Out-Null
         Move-Item -Path "$zip\lib\$plf\*.lib" -Destination "$dir\sources\$pkg\lib\$plf\" -Force | Out-Null
@@ -287,23 +283,29 @@ Set-Location -Path ".."
 
 New-Directory "$dir\repository" -ClearIfExists
 Set-Location "$dir\repository"
-Get-ChildItem -Path "../build/" -Filter "$pkg_prefix*$pkg_postfix.autopkg" | Foreach-Object {
-    Write-Host "`nGenerating NuGet package from $_...`n"
-    Write-NuGetPackage ..\build\$_ | Out-Null
-    if (-not ($keep_autopkg)) {
-        Remove-Item -Path "..\build\$_" | Out-Null
+try {
+    Get-ChildItem -Path "../build/" -Filter "$pkg_prefix*$pkg_postfix.autopkg" | Foreach-Object {
+        Write-Host "`nGenerating NuGet package from $_...`n"
+        Write-NuGetPackage ..\build\$_ | Out-Null
+        if (-not ($keep_autopkg)) {
+            Remove-Item -Path "..\build\$_" | Out-Null
+        }
     }
+    Write-Host "`nCleaning..."
+    Remove-Item -Path "*.symbols.*" | Out-Null
+    Set-Location -Path ".."
+    Remove-Item -Path "$dir\temp" -Recurse | Out-Null
+    if (-not ($keep_autopkg)) {
+        Remove-Item -Path "$dir\build" -Recurse | Out-Null
+    }
+    if (-not ($keep_sources)) {
+        Remove-Item -Path "$dir\sources" -Recurse | Out-Null
+    }
+    Write-Host -ForegroundColor Green "Done! Your packages are available in $dir\repository"
+    Pause
+    explorer.exe $dir\repository
 }
-Write-Host "`nCleaning..."
-Remove-Item -Path "*.symbols.*" | Out-Null
-Set-Location -Path ".."
-Remove-Item -Path "$dir\temp" -Recurse | Out-Null
-if (-not ($keep_autopkg)) {
-    Remove-Item -Path "$dir\build" -Recurse | Out-Null
+catch {
+    Write-Error $_
+    Set-Location $dir
 }
-if (-not ($keep_sources)) {
-    Remove-Item -Path "$dir\sources" -Recurse | Out-Null
-}
-Write-Host -ForegroundColor Green "Done! Your packages are available in $dir\repository"
-Pause
-explorer.exe $dir\repository
