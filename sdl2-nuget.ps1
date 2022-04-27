@@ -18,7 +18,7 @@ $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.20"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.18"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.22"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.18"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
@@ -115,7 +115,7 @@ function PackageDependencies([string]$Package) {
 		packages : {"
     foreach ($dp in $sdl2_dependencies[$Package]) {
         $datas += "
-			$pkg_prefix$dp$pkg_postfix/" + $sdl2_version[$dp] + $pkgs_hotfix[$dp] + ","
+			$pkg_prefix$dp$pkg_postfix,"
     }
     $datas = $datas.TrimEnd(",")
     $datas += "
@@ -175,6 +175,8 @@ function New-Directory([Parameter (Mandatory)][string]$Path, [switch]$ClearIfExi
 }
 
 #########################
+
+Import-Module CoApp
 
 # Checking on installed CoApp Tools
 try {
@@ -304,3 +306,4 @@ if (-not ($keep_sources)) {
 }
 Write-Host -ForegroundColor Green "Done! Your packages are available in $dir\repository"
 Pause
+explorer.exe $dir\repository
