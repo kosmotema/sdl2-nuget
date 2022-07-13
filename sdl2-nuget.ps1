@@ -44,7 +44,12 @@ $sdl2_changelog = "Look at the official SDL website https://libsdl.org"
 # Don't change these values
 $dir = Split-Path -Path $MyInvocation.MyCommand.Path
 $coapp_download_url = "http://coapp.org/pages/releases.html"
-$sdl2_dependencies = @{ "sdl2_image" = "sdl2" ; "sdl2_ttf" = "sdl2"; "sdl2_mixer" = "sdl2"; "sdl2_net" = "sdl2" }
+$sdl2_dependencies = @{
+    "sdl2_image" = @(@{ "name" = "sdl2"; "version" = "2.0.0" })
+    "sdl2_ttf"   = @(@{ "name" = "sdl2"; "version" = "2.0.0" })
+    "sdl2_mixer" = @(@{ "name" = "sdl2"; "version" = "2.0.0" })
+    "sdl2_net"   = @(@{ "name" = "sdl2"; "version" = "2.0.0" })
+}
 
 #########################
 
@@ -66,7 +71,7 @@ nuget {
 	nuspec {
 		id = $pkg_prefix$Package$pkg_postfix;
 		title: $pkg_prefix$Package$pkg_postfix;
-		version: " + $sdl2_version[$Package] + $pkgs_hotfix[$Package] + ";
+		version: $($sdl2_version[$Package] + $pkgs_hotfix[$Package]);
 		authors: { $sdl2_authors };
 		owners: { $sdl2_owners };
 		licenseUrl: ""$sdl2_licence_url"";
@@ -115,7 +120,7 @@ function PackageDependencies([string]$Package) {
 		packages : {"
     foreach ($dp in $sdl2_dependencies[$Package]) {
         $datas += "
-			$pkg_prefix$dp$pkg_postfix,"
+			$pkg_prefix$($dp["name"])$pkg_postfix/" + $dp["version"] + ","
     }
     $datas = $datas.TrimEnd(",")
     $datas += "
