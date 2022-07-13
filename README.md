@@ -6,9 +6,9 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 ### Note: This script is incompatible with PowerShell Core (v7)
 
-#### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@xapdkop.dev](mailto:sdl2-nuget@xapdkop.dev)
+#### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@kosmotema.dev](mailto:sdl2-nuget@kosmotema.dev)
 
-### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/xapdkop/sdl2-nuget/releases/)):
+### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/kosmotema/sdl2-nuget/releases/)):
 
 - [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/)
 - [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/)
