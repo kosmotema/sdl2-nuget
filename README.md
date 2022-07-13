@@ -20,7 +20,7 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 - SDL2 - **2.0.22**
 - SDL2_image - **2.6.0**
-- SDL2_ttf - **2.0.18**
+- SDL2_ttf - **2.20.0**
 - SDL2_mixer - **2.6.0**
 - SDL2_net - **2.0.1**
 
