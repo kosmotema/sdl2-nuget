@@ -18,15 +18,15 @@ $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform
 
 # SDL2 nuget packages 'generation' variables
 $sdl2_packages = "sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "sdl2_net" # SDL2 packages, that will be generated
-$sdl2_version = @{ "sdl2" = "2.0.22"; "sdl2_image" = "2.0.5"; "sdl2_ttf" = "2.0.18"; "sdl2_mixer" = "2.0.4"; "sdl2_net" = "2.0.1" }
+$sdl2_version = @{ "sdl2" = "2.0.22"; "sdl2_image" = "2.6.0"; "sdl2_ttf" = "2.0.18"; "sdl2_mixer" = "2.6.0"; "sdl2_net" = "2.0.1" }
 $sdl2_platforms = "x86", "x64"
 
 #########################
 
 # It's not recommended to change these values
-$sdl2_download_url = "https://www.libsdl.org/release/"
-$sdl2_projects_download_url = "https://www.libsdl.org/projects/"
-$sdl2_authors = "Sam Lantinga and SDL2 contributors"
+# $sdl2_download_url - deprecated, change it directly in the script
+# $sdl2_projects_download_url - deprecated, change it directly in the script
+$sdl2_authors = "Sam Lantinga and SDL contributors"
 $sdl2_licence_url = "https://www.libsdl.org/license.php"
 $sdl2_project_url = "https://www.libsdl.org"
 $sdl2_icon_url = "https://www.libsdl.org/media/SDL_logo.png"
@@ -198,22 +198,18 @@ New-Directory "$dir\distfiles"
 New-Directory "$dir\build" -ClearIfExists
 
 foreach ($pkg in $sdl2_packages) {
-    $filename = "$pkg-devel-" + $sdl2_version[$pkg] + "-VC.zip"
-    $filename = $filename.Replace("sdl", "SDL")
+    $version = $sdl2_version[$pkg]
+    $packagename = $pkg.Replace("sdl", "SDL")
+    $reponame = $packagename.Replace("SDL2", "SDL")
+    $filename = "$packagename-devel-" + $version + "-VC.zip"
     $outfile = "$dir\distfiles\$filename"
     if (-not (Test-Path $outfile)) {
-        if ($pkg -eq "sdl2") {
-            $fileuri = $sdl2_download_url + $filename
-        }
-        else {
-            $fileuri = $sdl2_projects_download_url + $pkg.Replace("sdl2", "SDL") + "/release/" + $filename
-            #$fileuri = $fileuri.Replace("sdl_", "SDL_")
-        }
+        $fileuri = "https://github.com/libsdl-org/$reponame/releases/download/release-$version/$filename"
         $webclient = New-Object System.Net.WebClient
         $downloaded = $false
         while ($downloaded -eq $false) {
             try {
-                Write-Host "`nDownloading $filename... " -NoNewLine
+                Write-Host "`nDownloading $filename from $fileuri ... " -NoNewLine
                 $webclient.DownloadFile($fileuri, $outfile)
                 $downloaded = $true
                 Write-Host -ForegroundColor Green "OK"
