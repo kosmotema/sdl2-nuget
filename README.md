@@ -19,9 +19,9 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 ## Versions of SDL2 by default:
 
 - SDL2 - **2.0.22**
-- SDL2_image - **2.6.0**
+- SDL2_image - **2.6.1**
 - SDL2_ttf - **2.20.0**
-- SDL2_mixer - **2.6.0**
+- SDL2_mixer - **2.6.1**
 - SDL2_net - **2.0.1**
 
 ## Prerequisites for generating your own packages
@@ -31,8 +31,31 @@ To generate packages you need the CoApp tools: [Official website](http://coapp.o
 ## How to generate
 
 You just have to run the sdl2-nuget.ps1 script in a PowerShell instance.
-It will download each needed files and output nupkg files in the "repository" folder.
+It will download each needed files and output `.nupkg` files in the "repository" folder.
 Also you can customize script if you want.
+
+## Script command line parameters
+
+You can use parameters to generate only specific packages (with specific versions).
+
+To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.0.22`)
+To generate a package of default version, specified in `$sdl2_default_versions` (see bellow), use `$true` as version (e.g. `-sdl2_image:$true`)
+
+For example, to generate SDL2 package of version 2.0.22 and SDL2_image of default version, run:
+
+```
+./sdl2-nuget.ps1 -sdl2:2.0.22 -sdl2_image:$true
+```
+
+List of available parameters:
+
+- `sdl2`
+- `sdl2_image`
+- `sdl2_mixer`
+- `sdl2_ttf`
+- `sdl2_net`
+
+**Note:** You can specify hotfix for a package (e.g. `-sdl2:2.0.22.1`), that will be used only for a NuGet version of a package.
 
 ## Packages customization
 
@@ -43,11 +66,10 @@ You can customize packages by changing this params **(you should know what you a
 - `$keep_sources` to keep or delete source files, **true** by default
 - `$keep_autopkg` to keep or delete autopkg files, **false** by default
 - `$add_docs` to add the SDL2's documentation, **false** by default
-- `$pkg_hotfix` to set hotfix versions of generated packages, **""** by default for each package [empty quotes, means no hotfix]
 - `$sdl2_owners` to change packages owner(s)
 - `$sdl2_tags` to customize tags
 - `$sdl2_module_list` to choose modules you need
-- `$sdl2_version` to choose packages versions
+- `$sdl2_default_versions` to choose packages default versions (used when passed `$true` as value of command line parameter)
 - `$sdl2_platforms` - for advanced users
 
 ## SDL2 links:
