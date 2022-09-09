@@ -6,7 +6,7 @@
 
 param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net)
 
-$version = "2.0.0"
+$version = "2.1.0"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
@@ -68,7 +68,8 @@ function SetPackageVersionFromParameter([string]$Name, [string]$Version) {
 
     $v = $sdl2_packages[$Name] = if ($Version -ne $true) { $Version } else { $sdl2_default_versions[$Name] }
 
-    if (-not ($v -match "^2\.\d+\.\d+(\.\d+)?$")) {
+    # https://semver.org/spec/v2.0.0.html#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+    if (-not ($v -match '^2\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$')) {
         Write-Warning "Bad version of package `"${Name}`": $v"
         Exit
     }
@@ -86,23 +87,21 @@ if ($sdl2_packages.count -eq 0) {
 
 #########################
 
-function TrimHotfix([string]$Version) {
-    $v = $Version.Split(".")
-
-    return "$($v[0]).$($v[1]).$($v[2])"
+function TrimVersion([string]$Version) {
+    return $Version -replace '^(\d+)\.(\d+)\.(\d+).*$', '$1.$2.$3'
 }
 
 function RepoInfo([string]$Package) {
-    $version = TrimHotfix $sdl2_packages[$Package]
+    $version = TrimVersion $sdl2_packages[$Package]
     $packagename = $Package.Replace("sdl", "SDL")
     $reponame = $packagename.Replace("SDL2", "SDL")
     $filename = "$packagename-devel-" + $version + "-VC.zip"
 
     return @{
         "version" = $version
-        "repo" = "libsdl-org/$reponame"
-        "file" = $filename
-        "tag" = "release-$version"
+        "repo"    = "libsdl-org/$reponame"
+        "file"    = $filename
+        "tag"     = "release-$version"
     }
 }
 
@@ -329,7 +328,7 @@ foreach ($pkg in $sdl2_packages.keys) {
 }
 
 # Workaround for outdated zlib1.dll in SDL_ttf <2.0.15
-# if ($sdl2_packages["sdl2_ttf"] -and $(TrimHotfix $sdl2_packages["sdl2_ttf"]) -lt "2.0.15") {
+# if ($sdl2_packages["sdl2_ttf"] -and $(TrimVersion $sdl2_packages["sdl2_ttf"]) -lt "2.0.15") {
 #     Copy-Item -Path "$dir\sources\sdl2_image\bin\x64\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x64\zlib1.dll"
 #     Copy-Item -Path "$dir\sources\sdl2_image\bin\x86\zlib1.dll" -Destination "$dir\sources\sdl2_ttf\bin\x86\zlib1.dll"
 # }
