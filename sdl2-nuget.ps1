@@ -23,7 +23,7 @@ $add_docs = $false # Add docs in system module, $false by default
 $sdl2_owners =	"xapdkop" # Packages "owner" name. Replace username with your name
 $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
 
-$sdl2_default_versions = @{ "sdl2" = "2.0.22"; "sdl2_image" = "2.6.1"; "sdl2_ttf" = "2.20.0"; "sdl2_mixer" = "2.6.1"; "sdl2_net" = "2.0.1" } 
+$sdl2_default_versions = @{ "sdl2" = "2.24.2"; "sdl2_image" = "2.6.2"; "sdl2_ttf" = "2.20.1"; "sdl2_mixer" = "2.6.2"; "sdl2_net" = "2.2.0" } 
 
 $sdl2_platforms = "x86", "x64"
 
