@@ -1,4 +1,4 @@
-# sdl2.nuget
+# sdl2.nuget ![version](https://img.shields.io/github/v/tag/kosmotema/sdl2-nuget?label=version)
 
 PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
@@ -39,12 +39,12 @@ Also you can customize script if you want.
 You can use parameters to generate only specific packages (with specific versions).
 
 To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.0.22`)
-To generate a package of default version, specified in `$sdl2_default_versions` (see bellow), use `$true` as version (e.g. `-sdl2_image:$true`)
+To generate a package of default version, specified in `$sdl2_default_versions` (see bellow), use `default` as version (e.g. `-sdl2_image:default`)
 
 For example, to generate SDL2 package of version 2.0.22 and SDL2_image of default version, run:
 
 ```
-./sdl2-nuget.ps1 -sdl2:2.0.22 -sdl2_image:$true
+./sdl2-nuget.ps1 -sdl2:2.0.22 -sdl2_image:default
 ```
 
 List of available parameters:
@@ -69,7 +69,7 @@ You can customize packages by changing this params **(you should know what you a
 - `$sdl2_owners` to change packages owner(s)
 - `$sdl2_tags` to customize tags
 - `$sdl2_module_list` to choose modules you need
-- `$sdl2_default_versions` to choose packages default versions (used when passed `$true` as value of command line parameter)
+- `$sdl2_default_versions` to choose packages default versions (used when passed `default` as value of command line parameter)
 - `$sdl2_platforms` - for advanced users
 
 ## SDL2 links:

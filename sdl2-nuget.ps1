@@ -6,7 +6,7 @@
 
 param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net)
 
-$version = "2.1.0"
+$version = "2.2.0"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
@@ -66,7 +66,7 @@ function SetPackageVersionFromParameter([string]$Name, [string]$Version) {
         return
     }
 
-    $v = $sdl2_packages[$Name] = if ($Version -ne $true) { $Version } else { $sdl2_default_versions[$Name] }
+    $v = $sdl2_packages[$Name] = if ($Version -ne "default") { $Version } else { $sdl2_default_versions[$Name] }
 
     # https://semver.org/spec/v2.0.0.html#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
     if (-not ($v -match '^2\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$')) {
