@@ -6,7 +6,7 @@
 
 param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net)
 
-$version = "2.2.0"
+$version = "2.3.0"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
@@ -240,11 +240,13 @@ function NewDirectory([string]$Path, [switch]$ClearIfExists = $false) {
 
 #########################
 
-Import-Module CoApp
-
 # Checking on installed CoApp Tools
 try {
-    Show-CoAppToolsVersion | Out-Null
+    powershell.exe Show-CoAppToolsVersion | Out-Null
+
+    if (-not $?) {
+        throw;
+    }
 }
 catch {
     Write-Warning "You need CoApp tools to build NuGet packages!"
@@ -358,7 +360,13 @@ Set-Location "$dir\repository"
 try {
     Get-ChildItem -Path "../build/" -Filter "$pkg_prefix*$pkg_postfix.autopkg" | Foreach-Object {
         Write-Host "`nGenerating NuGet package from $_...`n"
-        Write-NuGetPackage ..\build\$_ | Out-Null
+
+        powershell.exe Write-NuGetPackage $_
+
+        if (-not $?) {
+            throw;
+        }
+
         if (-not ($keep_autopkg)) {
             Remove-Item -Path "..\build\$_" | Out-Null
         }
