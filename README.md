@@ -4,7 +4,9 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 ## **Disclaimer! All packages are provided "AS IS"**
 
-### Note: This script is incompatible with PowerShell Core (v7)
+### ~~Note: This script is incompatible with PowerShell Core (v7)~~
+
+Now you can launch the script from Powershell Core, however CoApp will be launched via classic Powershell
 
 #### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@kosmotema.dev](mailto:sdl2-nuget@kosmotema.dev)
 
