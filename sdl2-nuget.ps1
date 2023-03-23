@@ -4,7 +4,8 @@
 
 #########################
 
-param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net,
+param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [Alias("SDL-ttf")][string] $sdl2_ttf, 
+    [Alias("SDL-mixer")][string] $sdl2_mixer, [Alias("SDL-net")][string] $sdl2_net,
     [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
     [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false)
 
