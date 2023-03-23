@@ -9,7 +9,7 @@ param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [A
     [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
     [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false)
 
-$version = "2.3.0"
+$version = "2.4.0"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
