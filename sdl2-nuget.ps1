@@ -4,7 +4,9 @@
 
 #########################
 
-param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net)
+param([string] $sdl2, [string] $sdl2_image, [string] $sdl2_ttf, [string] $sdl2_mixer, [string] $sdl2_net,
+    [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
+    [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false)
 
 $version = "2.3.0"
 
@@ -12,18 +14,11 @@ Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
 #########################
 
-# Some customisation variables
-$pkg_prefix = "" # Prefix of packages
-$pkg_postfix = ".nuget" # Postfix of packages
-$keep_sources = $false # Use $true to keep source files or $false to delete them, $true by default
-$keep_autopkg = $true # Keep autopkg files, $false by default
-$add_docs = $false # Add docs in system module, $false by default
-
 # SDL2 packages variables
 $sdl2_owners =	"xapdkop" # Packages "owner" name. Replace username with your name
 $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
 
-$sdl2_default_versions = @{ "sdl2" = "2.26.4"; "sdl2_image" = "2.6.3"; "sdl2_ttf" = "2.20.2"; "sdl2_mixer" = "2.6.3"; "sdl2_net" = "2.2.0" } 
+$sdl2_default_versions = @{ "sdl2" = "2.26.3"; "sdl2_image" = "2.6.3"; "sdl2_ttf" = "2.20.2"; "sdl2_mixer" = "2.6.3"; "sdl2_net" = "2.2.0" } 
 
 $sdl2_platforms = "x86", "x64"
 
@@ -113,7 +108,7 @@ function FetchChangelog([string]$Package) {
 }
 
 function GetFullPackageName([string]$Package) {
-    return "$pkg_prefix$Package$pkg_postfix"
+    return "$PackagesPrefix$Package$PackagesPostfix"
 }
 
 function PackageHeader([string]$Package) {
@@ -187,7 +182,7 @@ function PackageDependencies([string]$Package) {
 		packages : {"
     foreach ($dp in $sdl2_dependencies[$Package]) {
         $datas += "
-			$pkg_prefix$($dp["name"])$pkg_postfix/" + $dp["version"] + ","
+			$PackagesPrefix$($dp["name"])$PackagesPostfix/" + $dp["version"] + ","
     }
     $datas = $datas.TrimEnd(",")
     $datas += "
@@ -315,7 +310,7 @@ foreach ($pkg in $sdl2_packages.keys) {
     NewDirectory "$dir\sources\$pkg\docs"
     Move-Item -Path (Get-ChildItem "$zip\*.txt" -File) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
 
-    if ($add_docs -ne $false) {
+    if ($AddDocs -ne $false) {
         if (Test-Path "$zip\docs\") {
             Copy-Item -Path "$zip\docs\*" -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
         }
@@ -339,7 +334,7 @@ Write-Host
 Set-Location "$dir\build"
 
 foreach ($module in $sdl2_packages.keys) {
-    Write-Host "Generating $pkg_prefix$module$pkg_postfix.autopkg... " -NoNewline
+    Write-Host "Generating $PackagesPrefix$module$PackagesPostfix.autopkg... " -NoNewline
 
     try {
         GeneratePackage $module
@@ -358,7 +353,7 @@ NewDirectory "$dir\repository" -ClearIfExists
 Set-Location "$dir\repository"
 
 try {
-    Get-ChildItem -Path "../build/" -Filter "$pkg_prefix*$pkg_postfix.autopkg" | Foreach-Object {
+    Get-ChildItem -Path "../build/" -Filter "$PackagesPrefix*$PackagesPostfix.autopkg" | Foreach-Object {
         Write-Host "`nGenerating NuGet package from $_...`n"
 
         powershell.exe Write-NuGetPackage $_
@@ -367,7 +362,7 @@ try {
             throw;
         }
 
-        if (-not ($keep_autopkg)) {
+        if (-not ($KeepAutoPkg)) {
             Remove-Item -Path "..\build\$_" | Out-Null
         }
     }
@@ -377,11 +372,11 @@ try {
     Set-Location -Path ".."
     Remove-Item -Path "$dir\temp" -Recurse | Out-Null
 
-    if (-not ($keep_autopkg)) {
+    if (-not ($KeepAutoPkg)) {
         Remove-Item -Path "$dir\build" -Recurse | Out-Null
     }
 
-    if (-not ($keep_sources)) {
+    if (-not ($KeepSources)) {
         Remove-Item -Path "$dir\sources" -Recurse | Out-Null
     }
 
