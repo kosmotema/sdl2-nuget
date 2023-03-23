@@ -8,7 +8,7 @@ PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 Now you can launch the script from Powershell Core, however CoApp will be launched via classic Powershell
 
-#### If you see that SDL2-nuget packages are outdated, create an issue or send me an email on [sdl2-nuget@kosmotema.dev](mailto:sdl2-nuget@kosmotema.dev)
+#### If you see that SDL2-nuget packages are outdated, please [create an issue](https://github.com/kosmotema/sdl2-nuget/issues/new)
 
 ### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/kosmotema/sdl2-nuget/releases/)):
 
@@ -38,6 +38,8 @@ Also you can customize script if you want.
 
 ## Script command line parameters
 
+### Packages
+
 You can use parameters to generate only specific packages (with specific versions).
 
 To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.26.4`)
@@ -59,15 +61,20 @@ List of available parameters:
 
 **Note:** You can specify hotfix for a package (e.g. `-sdl2:2.26.4.1`), that will be used only for a NuGet version of a package.
 
-## Packages customization
+### Customization
 
-You can customize packages by changing this params **(you should know what you are changing!!!)**:
+You can customize packages or keep some intermediate files by settings this params when executing the script:
 
-- `$pkg_prefix` to change packages prefix, **""** by default [empty quotes, means no prefix]
-- `$pkg_postfix` to change packages postfix, **""** by default [empty quotes, means no postfix]
-- `$keep_sources` to keep or delete source files, **true** by default
-- `$keep_autopkg` to keep or delete autopkg files, **false** by default
-- `$add_docs` to add the SDL2's documentation, **false** by default
+- `-PackagesPrefix` to change packages prefix, **""** by default [empty quotes, means no prefix]
+- `-PackagesPostfix` to change packages postfix, **".nuget"** by default [empty quotes, means no postfix]
+- `-AddDocs` to add the SDL2's documentation, **false** by default
+- `-KeepSources` to keep or delete unpacked source files inside the temporary `sources` folder, **false** by default
+- `-KeepAutoPkg` to keep or delete `.autopkg` files inside the temporary `build` directory, **false** by default
+
+## Script variables
+
+Also, there are some hidden variables you can change in the script:
+
 - `$sdl2_owners` to change packages owner(s)
 - `$sdl2_tags` to customize tags
 - `$sdl2_module_list` to choose modules you need
