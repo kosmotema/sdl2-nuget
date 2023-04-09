@@ -364,7 +364,7 @@ try {
         }
 
         if (-not ($KeepAutoPkg)) {
-            Remove-Item -Path "..\build\$_" | Out-Null
+            Remove-Item -Path $_ | Out-Null
         }
     }
 
