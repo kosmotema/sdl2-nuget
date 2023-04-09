@@ -20,7 +20,7 @@ Now you can launch the script from Powershell Core, however CoApp will be launch
 
 ## Versions of SDL2 by default:
 
-- SDL2 - **2.26.4**
+- SDL2 - **2.26.5**
 - SDL2_image - **2.6.2**
 - SDL2_ttf - **2.20.1**
 - SDL2_mixer - **2.6.2**
@@ -42,13 +42,13 @@ Also you can customize script if you want.
 
 You can use parameters to generate only specific packages (with specific versions).
 
-To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.26.4`)
+To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.26.5`)
 To generate a package of default version, specified in `$sdl2_default_versions` (see bellow), use `default` as version (e.g. `-sdl2_image:default`)
 
-For example, to generate SDL2 package of version 2.26.4 and SDL2_image of default version, run:
+For example, to generate SDL2 package of version 2.26.5 and SDL2_image of default version, run:
 
 ```
-./sdl2-nuget.ps1 -sdl2:2.26.4 -sdl2_image:default
+./sdl2-nuget.ps1 -sdl2:2.26.5 -sdl2_image:default
 ```
 
 List of available parameters:
@@ -59,7 +59,7 @@ List of available parameters:
 - `sdl2_ttf`
 - `sdl2_net`
 
-**Note:** You can specify hotfix for a package (e.g. `-sdl2:2.26.4.1`), that will be used only for a NuGet version of a package.
+**Note:** You can specify hotfix for a package (e.g. `-sdl2:2.26.5.1`), that will be used only for a NuGet version of a package.
 
 ### Customization
 
