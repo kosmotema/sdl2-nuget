@@ -9,14 +9,14 @@ param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [A
     [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
     [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false)
 
-$version = "2.4.1"
+$version = "2.5.0"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
 #########################
 
 # SDL2 packages variables
-$sdl2_owners =	"xapdkop" # Packages "owner" name. Replace username with your name
+$sdl2_owners =	"kosmotema" # Packages "owner" name. Replace username with your name
 $sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
 
 $sdl2_default_versions = @{ "sdl2" = "2.26.5"; "sdl2_image" = "2.6.3"; "sdl2_ttf" = "2.20.2"; "sdl2_mixer" = "2.6.3"; "sdl2_net" = "2.2.0" } 
