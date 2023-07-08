@@ -7,7 +7,7 @@
 param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [Alias("SDL-ttf")][string] $sdl2_ttf, 
     [Alias("SDL-mixer")][string] $sdl2_mixer, [Alias("SDL-net")][string] $sdl2_net,
     [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
-    [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false)
+    [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false, [switch] $ForceDownload = $false)
 
 $version = "3.0.0-alpha.1"
 
@@ -269,7 +269,7 @@ foreach ($pkg in $sdl2_packages.keys) {
 
     $outfile = "$dir\distfiles\$filename"
 
-    if (-not (Test-Path $outfile)) {
+    if ($ForceDownload -or -not (Test-Path $outfile)) {
         while ($true) {
             try {
                 Write-Host "`nDownloading $filename from $fileuri ... " -NoNewLine
