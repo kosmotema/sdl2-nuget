@@ -42,7 +42,7 @@ Is this package outdated? Report here: https://github.com/kosmotema/sdl2-nuget"
 
 # Don't change these values
 $dir = Split-Path -Path $MyInvocation.MyCommand.Path
-$coapp_download_url = "http://coapp.org/pages/releases.html"
+$coapp_download_url = "http://coapp.github.io/pages/releases.html"
 $sdl2_default_dependency = @(@{ "name" = "sdl2"; "version" = "2.0.0" })
 $sdl2_dependencies = @{
     "sdl2_image" = $sdl2_default_dependency
