@@ -16,8 +16,8 @@ Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 #########################
 
 # SDL2 packages variables
-$sdl2_owners =	"kosmotema" # Packages "owner" name. Replace username with your name
-$sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages, "SDL2, native, CoApp" by default
+$sdl2_owners =	"kosmotema" # Packages "owner" name. Replace it with your name
+$sdl2_tags = "C++ SDL2 SDL Audio Graphics Keyboard Mouse Joystick Multi-Platform OpenGL Direct3D" # Tags for your packages
 
 $sdl2_platforms = "x86", "x64"
 
@@ -63,7 +63,7 @@ $sdl2_packages = @{
 
 #########################
 
-function Get-RealVersion([string] $Version, [string] $FallbackVersion) {
+function Get-PackageVersion([string] $Version, [string] $FallbackVersion) {
     if ($Version -eq "latest") {
         return $FallbackVersion
     }
@@ -71,7 +71,7 @@ function Get-RealVersion([string] $Version, [string] $FallbackVersion) {
     return $Version
 }
 
-function TrimVersion([string]$Version) {
+function Get-TagVersion([string]$Version) {
     return $Version -replace '^(\d+)\.(\d+)\.(\d+).*$', '$1.$2.$3'
 }
 
@@ -79,26 +79,26 @@ function Get-VersionFromRelease($ReleaseInfo) {
     return $ReleaseInfo['tag_name'].Replace("release-", "")
 }
 
-function GetTagFromVersion([string] $Version) {
+function Get-TagFromVersion([string] $Version) {
     if ($Version -eq "latest") {
         return $version
     }
 
-    return "tags/release-$(TrimVersion $Version)"
+    return "tags/release-$(Get-TagVersion $Version)"
 }
 
-function GetRepoInfo([string] $Package, [string] $Version) {
+function Read-RepoInfo([string] $Package, [string] $Version) {
     $reponame = $Package.Replace("sdl", "SDL").Replace("SDL2", "SDL")
-    $tag = GetTagFromVersion $Version
+    $tag = Get-TagFromVersion $Version
 
     return (Invoke-WebRequest -Uri "https://api.github.com/repos/libsdl-org/$reponame/releases/$tag" | ConvertFrom-Json -AsHashtable)
 }
 
-function GetFullPackageName([string]$Package) {
+function Format-PackageName([string]$Package) {
     return "$PackagesPrefix$Package$PackagesPostfix"
 }
 
-function PackageHeader([string]$Package, $Info) {
+function New-PackageHeader([string]$Package, $Info) {
     $currentYear = (Get-Date).Year
 
     return "configurations {
@@ -115,9 +115,9 @@ function PackageHeader([string]$Package, $Info) {
 
 nuget {
 	nuspec {
-		id = $(GetFullPackageName $Package);
-		title: $(GetFullPackageName $Package);
-		version: $(Get-RealVersion $sdl2_packages[$Package] (Get-VersionFromRelease $Info));
+		id = $(Format-PackageName $Package);
+		title: $(Format-PackageName $Package);
+		version: $(Get-PackageVersion $sdl2_packages[$Package] (Get-VersionFromRelease $Info));
 		authors: { $sdl2_authors };
 		owners: { $sdl2_owners };
 		licenseUrl: ""$sdl2_licence_url"";
@@ -138,7 +138,7 @@ nuget {
 	}"
 }
 
-function PackageLibs([string]$Package) {
+function New-PackageLibs([string]$Package) {
     $datas = ""
 
     foreach ($plf in $sdl2_platforms) {
@@ -158,7 +158,7 @@ $binfile"
     return $datas
 }
 
-function PackageDependencies([string]$Package) {
+function New-PackageDependencies([string]$Package) {
     if (-not $sdl2_dependencies.ContainsKey($Package)) {
         return ""
     }
@@ -177,10 +177,10 @@ function PackageDependencies([string]$Package) {
     return $datas
 }
 
-function GeneratePackage([string]$Package, $Info, [string]$OutFile) {
+function New-Package([string]$Package, $Info, [string]$OutFile) {
 
-    $autopkg = PackageHeader $Package $Info
-    $autopkg += PackageDependencies $Package
+    $autopkg = New-PackageHeader $Package $Info
+    $autopkg += New-PackageDependencies $Package
     $autopkg += "
 
 	files {
@@ -199,7 +199,7 @@ function GeneratePackage([string]$Package, $Info, [string]$OutFile) {
 		};
 
 "
-    $autopkg += PackageLibs($Package)
+    $autopkg += New-PackageLibs($Package)
     $autopkg += "
 	};
 
@@ -210,7 +210,7 @@ function GeneratePackage([string]$Package, $Info, [string]$OutFile) {
     $autopkg | Out-File $OutFile
 }
 
-function NewDirectory([string]$Path, [switch]$ClearIfExists = $false, [switch]$PassThru = $false) {
+function New-Directory([string]$Path, [switch]$ClearIfExists = $false, [switch]$PassThru = $false) {
     if (-not (Test-Path $Path)) {
         New-Item $Path -ItemType Directory -Force | Out-Null
     }
@@ -240,17 +240,17 @@ catch {
     Exit
 }
 
-NewDirectory "$dir\temp" -ClearIfExists
-NewDirectory "$dir\sources"
-NewDirectory "$dir\distfiles"
-NewDirectory "$dir\build" -ClearIfExists
+New-Directory "$dir\temp" -ClearIfExists
+New-Directory "$dir\sources"
+New-Directory "$dir\distfiles"
+New-Directory "$dir\build" -ClearIfExists
 
 foreach ($pkg in $sdl2_packages.keys) {
     if (-not $sdl2_packages[$pkg]) {
         continue
     }
 
-    $info = GetRepoInfo $pkg $sdl2_packages[$pkg]
+    $info = Read-RepoInfo $pkg $sdl2_packages[$pkg]
 
     if (-not $info) {
         continue
@@ -300,16 +300,16 @@ foreach ($pkg in $sdl2_packages.keys) {
         Exit
     }
 
-    NewDirectory "$dir\sources\$pkg"
+    New-Directory "$dir\sources\$pkg"
 
     foreach ($plf in $sdl2_platforms) {
-        NewDirectory "$dir\sources\$pkg\lib\$plf"
-        NewDirectory "$dir\sources\$pkg\bin\$plf"
+        New-Directory "$dir\sources\$pkg\lib\$plf"
+        New-Directory "$dir\sources\$pkg\bin\$plf"
     }
 
-    NewDirectory "$dir\sources\$pkg\include"
+    New-Directory "$dir\sources\$pkg\include"
     Move-Item -Path "$zip\include\*.h" -Destination "$dir\sources\$pkg\include\" -Force | Out-Null
-    NewDirectory "$dir\sources\$pkg\docs"
+    New-Directory "$dir\sources\$pkg\docs"
     Move-Item -Path (Get-ChildItem "$zip\*.txt" -File) -Destination "$dir\sources\$pkg\docs\" -Force | Out-Null
 
     if ($AddDocs -ne $false) {
@@ -325,14 +325,14 @@ foreach ($pkg in $sdl2_packages.keys) {
 
     Remove-Item -Path "$zip" -Recurse | Out-Null
 
-    NewDirectory "$dir\build\$pkg" -PassThru | Set-Location
+    New-Directory "$dir\build\$pkg" -PassThru | Set-Location
 
-    $autopkg = "$(GetFullPackageName $pkg)-$version.autopkg"
+    $autopkg = "$(Format-PackageName $pkg)-$version.autopkg"
 
     Write-Host "Generating $autopkg... " -NoNewline
 
     try {
-        GeneratePackage $pkg $info $autopkg
+        New-Package $pkg $info $autopkg
         Write-Host -ForegroundColor Green "OK"
     }
     catch {
@@ -342,7 +342,7 @@ foreach ($pkg in $sdl2_packages.keys) {
         continue
     }
 
-    NewDirectory "$dir\repository" -PassThru | Set-Location
+    New-Directory "$dir\repository" -PassThru | Set-Location
 
     try {
         Get-ChildItem -Path "..\build\$pkg\" -Filter "*-$version.autopkg" | Foreach-Object {
