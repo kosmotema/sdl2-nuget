@@ -12,11 +12,12 @@ Now you can launch the script from Powershell Core, however CoApp will be launch
 
 ### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/kosmotema/sdl2-nuget/releases/)):
 
-- [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/) <sup>2.28.1</sup>
-- [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/) <sup>2.6.2</sup>
-- [sdl2_ttf.nuget](https://www.nuget.org/packages/sdl2_ttf.nuget/) <sup>2.20.1</sup>
-- [sdl2_mixer.nuget](https://www.nuget.org/packages/sdl2_mixer.nuget/) <sup>2.6.2</sup>
-- [sdl2_net.nuget](https://www.nuget.org/packages/sdl2_net.nuget/) <sup>2.2.0</sup>
+- [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/) ![sdl2.nuget version](https://img.shields.io/nuget/v/sdl2.nuget?label=)
+
+- [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/) ![sdl2_image.nuget version](https://img.shields.io/nuget/v/sdl2_image.nuget?label=)
+- [sdl2_ttf.nuget](https://www.nuget.org/packages/sdl2_ttf.nuget/) ![sdl2_ttf.nuget version](https://img.shields.io/nuget/v/sdl2_ttf.nuget?label=)
+- [sdl2_mixer.nuget](https://www.nuget.org/packages/sdl2_mixer.nuget/) ![sdl2_mixer.nuget version](https://img.shields.io/nuget/v/sdl2_mixer.nuget?label=)
+- [sdl2_net.nuget](https://www.nuget.org/packages/sdl2_net.nuget/) ![sdl2_net.nuget version](https://img.shields.io/nuget/v/sdl2_net.nuget?label=)
 
 ## Prerequisites for generating your own packages
 
