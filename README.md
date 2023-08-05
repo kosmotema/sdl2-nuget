@@ -12,19 +12,12 @@ Now you can launch the script from Powershell Core, however CoApp will be launch
 
 ### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/kosmotema/sdl2-nuget/releases/)):
 
-- [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/)
-- [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/)
-- [sdl2_ttf.nuget](https://www.nuget.org/packages/sdl2_ttf.nuget/)
-- [sdl2_mixer.nuget](https://www.nuget.org/packages/sdl2_mixer.nuget/)
-- [sdl2_net.nuget](https://www.nuget.org/packages/sdl2_net.nuget/)
+- [sdl2.nuget](https://www.nuget.org/packages/sdl2.nuget/) ![sdl2.nuget version](https://img.shields.io/nuget/v/sdl2.nuget?label=)
 
-## Versions of SDL2 by default:
-
-- SDL2 - **2.28.1**
-- SDL2_image - **2.6.2**
-- SDL2_ttf - **2.20.1**
-- SDL2_mixer - **2.6.2**
-- SDL2_net - **2.2.0**
+- [sdl2_image.nuget](https://www.nuget.org/packages/sdl2_image.nuget/) ![sdl2_image.nuget version](https://img.shields.io/nuget/v/sdl2_image.nuget?label=)
+- [sdl2_ttf.nuget](https://www.nuget.org/packages/sdl2_ttf.nuget/) ![sdl2_ttf.nuget version](https://img.shields.io/nuget/v/sdl2_ttf.nuget?label=)
+- [sdl2_mixer.nuget](https://www.nuget.org/packages/sdl2_mixer.nuget/) ![sdl2_mixer.nuget version](https://img.shields.io/nuget/v/sdl2_mixer.nuget?label=)
+- [sdl2_net.nuget](https://www.nuget.org/packages/sdl2_net.nuget/) ![sdl2_net.nuget version](https://img.shields.io/nuget/v/sdl2_net.nuget?label=)
 
 ## Prerequisites for generating your own packages
 
@@ -42,13 +35,12 @@ Also you can customize script if you want.
 
 You can use parameters to generate only specific packages (with specific versions).
 
-To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.28.1`)
-To generate a package of default version, specified in `$sdl2_default_versions` (see bellow), use `default` as version (e.g. `-sdl2_image:default`)
+To generate a package of specific version, use following syntax: `-package:version` (e.g. `-sdl2:2.28.1`). You can use `latest` as the version to generate a package of the latest version available on GitHub releases.
 
-For example, to generate SDL2 package of version 2.28.1 and SDL2_image of default version, run:
+For example, to generate SDL2 package of version 2.28.1 and SDL2_image of the latest version, run:
 
 ```
-./sdl2-nuget.ps1 -sdl2:2.28.1 -sdl2_image:default
+./sdl2-nuget.ps1 -sdl2:2.28.1 -sdl2_image:latest
 ```
 
 List of available parameters:
