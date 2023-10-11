@@ -62,6 +62,7 @@ You can customize packages or keep some intermediate files by settings this para
 - `-AddDocs` to add the SDL2's documentation, **false** by default
 - `-KeepSources` to keep or delete unpacked source files inside the temporary `sources` folder, **false** by default
 - `-KeepAutoPkg` to keep or delete `.autopkg` files inside the temporary `build` directory, **false** by default
+- `-ClearOutDir` to delete everything in the `repository` folder before building packages, **false** by default
 
 ## Script variables
 

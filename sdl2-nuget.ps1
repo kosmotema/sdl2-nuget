@@ -7,7 +7,8 @@
 param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [Alias("SDL-ttf")][string] $sdl2_ttf, 
     [Alias("SDL-mixer")][string] $sdl2_mixer, [Alias("SDL-net")][string] $sdl2_net,
     [string] $PackagesPrefix = "", [string] $PackagesPostfix = ".nuget", [switch] $KeepSources = $false,
-    [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false, [switch] $ForceDownload = $false)
+    [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false, [switch] $ForceDownload = $false,
+    [switch] $ClearOutDir = $false)
 
 $version = "3.0.0-beta.1"
 
@@ -244,6 +245,7 @@ New-Directory "$dir\temp" -ClearIfExists
 New-Directory "$dir\sources"
 New-Directory "$dir\distfiles"
 New-Directory "$dir\build" -ClearIfExists
+New-Directory "$dir\repository" -ClearIfExists:$ClearOutDir
 
 foreach ($pkg in $sdl2_packages.keys) {
     if (-not $sdl2_packages[$pkg]) {
@@ -342,7 +344,7 @@ foreach ($pkg in $sdl2_packages.keys) {
         continue
     }
 
-    New-Directory "$dir\repository" -PassThru | Set-Location
+    Set-Location "$dir\repository"
 
     try {
         Get-ChildItem -Path "..\build\$pkg\" -Filter "*-$version.autopkg" | Foreach-Object {
