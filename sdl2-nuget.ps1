@@ -10,7 +10,7 @@ param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [A
     [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false, [switch] $ForceDownload = $false,
     [switch] $ClearOutDir = $false)
 
-$version = "3.0.0-beta.2"
+$version = "3.0.0-beta.3"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
