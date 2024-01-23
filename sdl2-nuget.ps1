@@ -77,7 +77,7 @@ function Get-TagVersion([string]$Version) {
 }
 
 function Get-VersionFromRelease($ReleaseInfo) {
-    return $ReleaseInfo['tag_name'].Replace("release-", "")
+    return $ReleaseInfo['tag_name'] -replace "(pre)?release-", ""
 }
 
 function Get-TagFromVersion([string] $Version) {
@@ -85,7 +85,13 @@ function Get-TagFromVersion([string] $Version) {
         return $version
     }
 
-    return "tags/release-$(Get-TagVersion $Version)"
+    $TagVersion = Get-TagVersion $Version;
+
+    if ($Version -match "-") {
+        return "tags/prerelease-$TagVersion"
+    }
+
+    return "tags/release-$TagVersion"
 }
 
 function Read-RepoInfo([string] $Package, [string] $Version) {
@@ -258,7 +264,7 @@ foreach ($pkg in $sdl2_packages.keys) {
         continue
     }
 
-    $version = Get-VersionFromRelease $info
+    $version = Get-PackageVersion $sdl2_packages[$pkg] (Get-VersionFromRelease $info)
     $file = $info['assets'] | Where-Object { $_.name -match "-devel-.+-VC\.zip$" }
 
     if (-not $file) {
