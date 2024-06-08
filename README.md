@@ -2,13 +2,13 @@
 
 PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
-## **Disclaimer! All packages are provided "AS IS"**
+> [!IMPORTANT]
+> `sdl.nuget` packages intented for use in C++ projects only and don't support C# projects!
+> 
+> In C++ projects to use SDL2, simply write `#include “SDL.h”`. Find out more usage tutorials on the [official SDL2 website](https://wiki.libsdl.org/SDL2/Tutorials)
 
-### ~~Note: This script is incompatible with PowerShell Core (v7)~~
-
-Now you can launch the script from Powershell Core, however CoApp will be launched via classic Powershell
-
-#### If you see that SDL2-nuget packages are outdated, please [create an issue](https://github.com/kosmotema/sdl2-nuget/issues/new)
+> [!TIP]
+> If you see that SDL2-nuget packages are outdated, please [create an issue](https://github.com/kosmotema/sdl2-nuget/issues/new)
 
 ### You can download pre-generated packages from [nuget.org](https://nuget.org) (or from [here](https://github.com/kosmotema/sdl2-nuget/releases/)):
 
