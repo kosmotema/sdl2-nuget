@@ -3,9 +3,9 @@
 PowerShell script to generate NuGet packages for SDL2. And pre-generated ones.
 
 > [!IMPORTANT]
-> `sdl.nuget` packages intented for use in C++ projects only and don't support C# projects!
+> `sdl2.nuget` packages intented for use in C++ projects only and don't support C# projects!
 > 
-> In C++ projects to use SDL2, simply write `#include “SDL.h”`. Find out more usage tutorials on the [official SDL2 website](https://wiki.libsdl.org/SDL2/Tutorials)
+> In C++ projects, to use SDL2, install `sdl2.nuget` package and simply write `#include "SDL.h"` in your `.cpp` or `.h` file. Find out more usage tutorials on the [official SDL2 website](https://wiki.libsdl.org/SDL2/Tutorials)
 
 > [!TIP]
 > If you see that SDL2-nuget packages are outdated, please [create an issue](https://github.com/kosmotema/sdl2-nuget/issues/new)
