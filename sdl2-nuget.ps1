@@ -10,7 +10,7 @@ param([Alias("SDL")][string] $sdl2, [Alias("SDL-image")][string] $sdl2_image, [A
     [switch] $KeepAutoPkg = $false, [switch] $AddDocs = $false, [switch] $ForceDownload = $false,
     [switch] $ClearOutDir = $false)
 
-$version = "3.0.0-beta.3"
+$version = "3.0.0-beta.4"
 
 Write-Host -ForegroundColor Blue "sdl2-nuget v$version"
 
@@ -133,7 +133,7 @@ nuget {
 		requireLicenseAcceptance: $sdl2_require_license_acceptance;
 		summary: ""$sdl2_summary"";
 		description: @""$sdl2_description"";
-		releaseNotes: @""$($Info["body"])"";
+		releaseNotes: @""$($Info["body"] -replace '"', '""""')"";
 		copyright: Copyright $currentYear;
 		tags: ""$sdl2_tags"";
 	}
