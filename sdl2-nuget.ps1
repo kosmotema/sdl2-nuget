@@ -94,6 +94,18 @@ function Get-TagFromVersion([string] $Version) {
     return "tags/release-$TagVersion"
 }
 
+function Get-TempRootDir([string]$Package, [string]$Version) {
+    $mapping = @{
+        "sdl2"       = "SDL2"
+        "sdl2_image" = "SDL2_image"
+        "sdl2_ttf"   = "SDL2_ttf"
+        "sdl2_mixer" = "SDL2_mixer"
+        "sdl2_net"   = "SDL2_net"
+    }
+
+    return "$($mapping[$Package])-$Version";
+}
+
 function Read-RepoInfo([string] $Package, [string] $Version) {
     $reponame = $Package.Replace("sdl", "SDL").Replace("SDL2", "SDL")
     $tag = Get-TagFromVersion $Version
@@ -296,7 +308,8 @@ foreach ($pkg in $sdl2_packages.keys) {
     Write-Host "`nExtracting $filename... " -NoNewLine
 
     try {
-        $zip = (Expand-Archive "$outfile" "$dir\temp\" -PassThru)[0].FullName
+        Expand-Archive "$outfile" "$dir\temp\"
+        $zip = "$dir\temp\$(Get-TempRootDir $pkg $version)"
         Write-Host -ForegroundColor Green "OK"
     }
     catch {
