@@ -107,7 +107,15 @@ function Get-TempRootDir([string]$Package, [string]$Version) {
 }
 
 function Read-RepoInfo([string] $Package, [string] $Version) {
-    $reponame = $Package.Replace("sdl", "SDL").Replace("SDL2", "SDL")
+    $mapping = @{
+        "sdl2"       = "SDL"
+        "sdl2_image" = "SDL_image"
+        "sdl2_ttf"   = "SDL_ttf"
+        "sdl2_mixer" = "SDL_mixer"
+        "sdl2_net"   = "SDL_net"
+    }
+
+    $reponame = $mapping[$Package]
     $tag = Get-TagFromVersion $Version
 
     return (Invoke-WebRequest -Uri "https://api.github.com/repos/libsdl-org/$reponame/releases/$tag" | ConvertFrom-Json -AsHashtable)
